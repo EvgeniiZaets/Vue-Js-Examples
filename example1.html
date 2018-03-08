@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>title</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sample">
+            <template v-if="showResult == false">
+                <b>Email</b>
+                <input type="text" class="form-control" v-model="email">
+                <br>
+                <b>First Name</b>
+                <input type="text" class="form-control" v-model="firstName">
+                <br>
+                <b>Last Name</b>
+                <input type="text" class="form-control" v-model="lastName">
+                <br>
+                <b>Phone</b>
+                <input type="text" class="form-control" v-model="phone">
+                <br>
+                <b>Guests</b>
+                <button class="btn btn-primary"
+                    @click="addGuest">
+                    +
+                </button>
+                <hr>
+                <div v-for="(guest, index) in guests">
+                    
+                    <span @dblclick="deleteGuest(index)">
+                        <b>Guest {{ guest.number }}</b>
+                    </span>
+                    <br>
+                    <input type="text" class="form-control" v-model="guest.value">
+                </div>
+                <br>
+                <button class="btn btn-success"
+                    @click="showResult = true">
+                    Send data
+                </button>
+            </template>
+            <template v-else>
+                <h1>All done!</h1>
+                <table class="table table-bordered">
+                    <tr>
+                        <td>Email</td>
+                        <td>{{ email }}</td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>{{ name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone</td>
+                        <td>{{ phone }}</td>
+                    </tr>
+                    <tr>
+                        <td>Guests</td>
+                        <td>
+                            <table class="table table-bordered">
+                                <tr v-for="guest in guests">
+                                    <td>{{ guest.value }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </template>
+
+            <pre>{{ $data }}</pre>
+        </div>
+    </div>
+    <script>
+        let guestNumber = 1;
+        let sample = new Vue({
+            el: '.sample',
+            data: {
+                email: '',
+                phone: '',
+                firstName: '',
+                lastName: '',
+                guests: [],
+                showResult: false
+            },
+            methods: {
+                addGuest(){
+                    this.guests.push({ value: '', number: guestNumber });
+                    guestNumber++;
+                },
+                deleteGuest(index){
+                    this.guests.splice(index, 1);
+                }
+            },
+            computed: {
+                name() {
+                    return this.firstName + ' ' + this.lastName;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
