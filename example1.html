@@ -33,10 +33,10 @@
                 <div v-for="(guest, index) in guests">
                     
                     <span @dblclick="deleteGuest(index)">
-                        <b>Guest {{ guest.number }}</b>
+                        <b>Guest {{ index + 1 }}</b>
                     </span>
                     <br>
-                    <input type="text" class="form-control" v-model="guest.value">
+                    <input type="text" class="form-control" v-model="guests[index]">
                 </div>
                 <br>
                 <button class="btn btn-success"
@@ -64,7 +64,7 @@
                         <td>
                             <table class="table table-bordered">
                                 <tr v-for="guest in guests">
-                                    <td>{{ guest.value }}</td>
+                                    <td>{{ guest }}</td>
                                 </tr>
                             </table>
                         </td>
@@ -76,7 +76,6 @@
         </div>
     </div>
     <script>
-        let guestNumber = 1;
         let sample = new Vue({
             el: '.sample',
             data: {
@@ -89,8 +88,7 @@
             },
             methods: {
                 addGuest(){
-                    this.guests.push({ value: '', number: guestNumber });
-                    guestNumber++;
+                    this.guests.push('');
                 },
                 deleteGuest(index){
                     this.guests.splice(index, 1);
